@@ -1,0 +1,77 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://Scene/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scene/ParallaxBackground.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scene/ObstaclesSpawner.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scene/TouchControl.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scene/Pause.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Fonts/ARCADECLASSIC.TTF" type="DynamicFontData" id=6]
+[ext_resource path="res://Art/Score.png" type="Texture" id=7]
+[ext_resource path="res://Script/Score.gd" type="Script" id=8]
+[ext_resource path="res://Script/Main.gd" type="Script" id=9]
+[ext_resource path="res://Art/PauseNormal.png" type="Texture" id=10]
+[ext_resource path="res://Art/PausePressed.png" type="Texture" id=11]
+[ext_resource path="res://Art/PauseHover.png" type="Texture" id=12]
+[ext_resource path="res://Script/PauseButton.gd" type="Script" id=14]
+
+[sub_resource type="DynamicFont" id=1]
+size = 14
+font_data = ExtResource( 6 )
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 9 )
+
+[node name="TouchControl" parent="." instance=ExtResource( 4 )]
+
+[node name="ObstaclesSpawner" parent="." instance=ExtResource( 3 )]
+
+[node name="ParallaxBackground" parent="." instance=ExtResource( 2 )]
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 55, 60 )
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+process_mode = 0
+limit_left = 0
+limit_right = 110
+smoothing_enabled = true
+editor_draw_limits = true
+editor_draw_drag_margin = true
+
+[node name="Score" type="TextureRect" parent="."]
+anchor_bottom = 1.0
+margin_left = 55.0
+margin_top = 2.0
+margin_right = 97.0
+margin_bottom = 14.0
+texture = ExtResource( 7 )
+expand = true
+script = ExtResource( 8 )
+
+[node name="Label" type="Label" parent="Score"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -1.0
+margin_right = -2.0
+margin_bottom = 3.0
+custom_fonts/font = SubResource( 1 )
+text = "0"
+align = 2
+
+[node name="PauseButton" type="TextureButton" parent="."]
+margin_left = 6.0
+margin_top = 2.0
+margin_right = 23.0
+margin_bottom = 15.0
+texture_normal = ExtResource( 10 )
+texture_pressed = ExtResource( 11 )
+texture_hover = ExtResource( 12 )
+expand = true
+script = ExtResource( 14 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="PauseButton"]
+layer = 2
+
+[node name="Pause" parent="PauseButton/CanvasLayer" instance=ExtResource( 5 )]
+
+[connection signal="pressed" from="PauseButton" to="PauseButton" method="_on_PauseButton_pressed"]
