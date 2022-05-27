@@ -1,0 +1,104 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Art/RestartNormal.png" type="Texture" id=1]
+[ext_resource path="res://Art/ResetPressed.png" type="Texture" id=2]
+[ext_resource path="res://Art/RestartHover.png" type="Texture" id=3]
+[ext_resource path="res://Fonts/ARCADECLASSIC.TTF" type="DynamicFontData" id=4]
+[ext_resource path="res://Script/ExitButton.gd" type="Script" id=5]
+[ext_resource path="res://Art/ExitHover.png" type="Texture" id=6]
+[ext_resource path="res://Art/ExitPressed.png" type="Texture" id=7]
+[ext_resource path="res://Art/ExitNormal.png" type="Texture" id=8]
+[ext_resource path="res://Script/ScoreScreen.gd" type="Script" id=9]
+[ext_resource path="res://Scene/ParallaxBackground.tscn" type="PackedScene" id=10]
+
+[sub_resource type="DynamicFont" id=1]
+size = 14
+font_data = ExtResource( 4 )
+
+[node name="ScoreScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 9 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.25098, 0.243137, 0.243137, 0.294118 )
+
+[node name="ResetButton" type="TextureButton" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -21.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = 17.0
+texture_normal = ExtResource( 1 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 3 )
+expand = true
+
+[node name="ExitButton" type="TextureButton" parent="."]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 22.0
+margin_bottom = 18.0
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 7 )
+texture_hover = ExtResource( 6 )
+expand = true
+script = ExtResource( 5 )
+
+[node name="LabelScore" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -20.0
+margin_top = 29.0
+margin_right = 20.0
+margin_bottom = 44.0
+custom_fonts/font = SubResource( 1 )
+text = "Score"
+uppercase = true
+
+[node name="Score" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -42.0
+margin_top = 44.0
+margin_right = 42.0
+margin_bottom = 59.0
+custom_fonts/font = SubResource( 1 )
+text = "000000"
+align = 1
+uppercase = true
+
+[node name="LabelHighscore" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -44.0
+margin_top = 75.0
+margin_right = 44.0
+margin_bottom = 90.0
+custom_fonts/font = SubResource( 1 )
+text = "Highscore"
+align = 1
+uppercase = true
+
+[node name="Highscore" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -45.0
+margin_top = 88.0
+margin_right = 45.0
+margin_bottom = 103.0
+custom_fonts/font = SubResource( 1 )
+text = "10000"
+align = 1
+uppercase = true
+
+[node name="ParallaxBackground" parent="." instance=ExtResource( 10 )]
+
+[node name="HTTPPut" type="HTTPRequest" parent="."]
+
+[connection signal="pressed" from="ResetButton" to="." method="_on_ResetButton_pressed"]
+[connection signal="pressed" from="ExitButton" to="ExitButton" method="_on_ExitButton_pressed"]
+[connection signal="request_completed" from="HTTPPut" to="." method="_on_HTTPPost_request_completed"]
